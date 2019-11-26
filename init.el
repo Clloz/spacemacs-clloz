@@ -43,8 +43,8 @@ This function should only modify configuration layer settings."
      ;; github
      search-engine
      graphviz
-     (haskell :variables haskell-enable-hindent t
-              haskell-completion-backend 'intero)
+    ;;  (haskell :variables haskell-enable-hindent t
+    ;;           haskell-completion-backend 'intero)
      (syntax-checking :variables syntax-checking-enable-by-default nil
                       syntax-checking-enable-tooltips nil)
      (spell-checking :variables spell-checking-enable-by-default nil)
@@ -85,7 +85,7 @@ This function should only modify configuration layer settings."
              python-lsp-git-root "~/Github/python-language-server")
      ;; (ruby :variables ruby-version-manager 'chruby)
      ;; ruby-on-rails
-     lua
+     ;;lua
      html
      (javascript :variables javascript-backend 'lsp)
      (typescript :variables
@@ -93,7 +93,7 @@ This function should only modify configuration layer settings."
                  typescript-fmt-tool 'typescript-formatter
                 typescript-backend 'lsp)
      emacs-lisp
-     (clojure :variables clojure-enable-fancify-symbols t)
+     ;;(clojure :variables clojure-enable-fancify-symbols t)
      racket
      (c-c++ :variables
             c-c++-default-mode-for-headers 'c++-mode
@@ -117,10 +117,6 @@ This function should only modify configuration layer settings."
                                       vue-mode
                                       ng2-mode
                                       geiser
-                                      sicp
-                                      xml-rpc
-                                      metaweblog
-                                      htmlize
                                       org2blog)
 
    ;; A list of packages that cannot be updated.
@@ -360,7 +356,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil the frame is fullscreen when Emacs starts up. (default nil)
    ;; (Emacs 24.4+ only)
-   dotspacemacs-fullscreen-at-startup nil
+   dotspacemacs-fullscreen-at-startup t
 
    ;; If non-nil `spacemacs/toggle-fullscreen' will not use native fullscreen.
    ;; Use to disable fullscreen animations in OSX. (default nil)
@@ -369,7 +365,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil the frame is maximized when Emacs starts up.
    ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
    ;; (default nil) (Emacs 24.4+ only)
-   dotspacemacs-maximized-at-startup t
+   dotspacemacs-maximized-at-startup nil
 
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
@@ -410,7 +406,7 @@ It should only modify the values of Spacemacs settings."
    ;;                       text-mode
    ;;   :size-limit-kb 1000)
    ;; (default nil)
-   dotspacemacs-line-numbers nil
+   dotspacemacs-line-numbers t
 
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
@@ -510,7 +506,7 @@ dump."
   ;;                 ("org-cn"   . "http://elpa.emacs-china.org/org/")
   ;;                 ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/")))
 
-  
+
   (setq term-char-mode-point-at-process-mark nil)
 
   ;; https://github.com/syl20bnr/spacemacs/issues/2705
@@ -531,13 +527,14 @@ dump."
   )
 
 (defun dotspacemacs/user-config ()
-
-; ;org2blog wordpress
+  ;;(setq-default tab-width 4)
+  ;;org2blog wordpress
   (setq org2blog/wp-blog-alist
-        '(("clloz.com"
+        '(("clloz"
            :url "https://www.clloz.com/xmlrpc.php"
            :username "Clloz"
-           :password "Lp13575789927@zl")))
+           :password "Lp13575789927@zl"
+           )))
   ;;org2blog wordpress
 
   (add-hook 'scheme-mode-hook
@@ -548,7 +545,7 @@ dump."
               (define-key scheme-mode-map (kbd "<f6>") 'geiser-eval-definition)))
   ;;(add-hook 'scheme-mode-hook 'run-geiser)
   (setq geiser-active-implementations '(chez))
-   
+
   ;;解决org表格里面中英文对齐的问题
   (when (configuration-layer/layer-usedp 'chinese)
     (when (and (spacemacs/system-is-mac) window-system)
@@ -601,6 +598,12 @@ dump."
         (when (> offset 0) (forward-char offset)))))
 
   (global-set-key (kbd "<backtab>") 'un-indent-by-removing-4-spaces)
+
+  ;;comment-line
+  (global-set-key (kbd "C-c C-c") 'comment-line)
+  (global-set-key (kbd "C-;") 'comment-line)
+  ;;comment-line
+
   (defun un-indent-by-removing-4-spaces ()
     "remove 4 spaces from beginning of of line"
     (interactive)
@@ -693,6 +696,8 @@ unwanted space when exporting org-mode to hugo markdown."
   ;; fix for the magit popup doesn't have a q keybindings
   (with-eval-after-load 'transient
     (transient-bind-q-to-quit))
+
+    
 
   ;; fix for the lsp error
   (defvar spacemacs-jump-handlers-fundamental-mode nil))
